@@ -5,7 +5,7 @@ pipeline {
       // DTRACK_API_KEY = credentials('dtrack_api_key')
 
       // Uncomment the following line to scan changed
-      files in PRs or MRs (diff-aware scanning):
+      // files in PRs or MRs (diff-aware scanning):
       SEMGREP_BASELINE_REF = "main"
       // Uncomment the following lines if Semgrep AppSec Platform > Findings Page does not create links
       // to the code that generated a finding or if you are not receiving PR or MR comments.
