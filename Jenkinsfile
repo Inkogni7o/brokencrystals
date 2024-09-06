@@ -16,7 +16,7 @@ pipeline {
       // SEMGREP_REPO_URL = env.GIT_URL.replaceFirst(/^(.*).git$/,'$1')
       // SEMGREP_PR_ID = "${env.CHANGE_ID}"
     }
-    stages {
+    // stages {
     //   stage('Semgrep-Scan') {
     //     steps {
     //         sh '''docker pull semgrep/semgrep && \
@@ -55,5 +55,5 @@ pipeline {
       //     dependencyTrackPublisher artifact: './syft-sbom.json', projectName: 'my-project', projectVersion: '0.1', synchronous: true, dependencyTrackApiKey: DTRACK_API_KEY
       //       }
       // }
-  }
+  // }
 }
