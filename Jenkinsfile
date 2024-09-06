@@ -8,7 +8,7 @@ pipeline {
       files in PRs or MRs (diff-aware scanning):
       SEMGREP_BASELINE_REF = "main"
       // Uncomment the following lines if Semgrep AppSec Platform > Findings Page does not create links
-      to the code that generated a finding or if you are not receiving PR or MR comments.
+      // to the code that generated a finding or if you are not receiving PR or MR comments.
       SEMGREP_JOB_URL = "${BUILD_URL}"
       SEMGREP_COMMIT = "${GIT_COMMIT}"
       SEMGREP_BRANCH = "${GIT_BRANCH}"
