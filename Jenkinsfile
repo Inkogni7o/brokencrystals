@@ -40,29 +40,46 @@ pipeline {
     //   }
     // }
 
-      stage("Trivy-Scan"){
-          steps{
-              sh '''docker pull aquasec/trivy && \
-              docker run -v "$(pwd):$(pwd)" -w $(pwd) \
-              aquasec/trivy fs . -f json > trivy_scan.json'''
-          }
-      }
+      // stage("Trivy-Scan"){
+      //     steps{
+      //         sh '''docker pull aquasec/trivy && \
+      //         docker run -v "$(pwd):$(pwd)" -w $(pwd) \
+      //         aquasec/trivy fs . -f json > trivy_scan.json'''
+      //     }
+      // }
 
-      stage("Cdxgen-Scan") {
-        steps {
-          sh 'touch WORKSPACE'
-          sh ''' docker pull ghcr.io/cyclonedx/cdxgen && \
-          docker run -v "$(pwd):$(pwd)" -w $(pwd) \
-          ghcr.io/cyclonedx/cdxgen -r -o sbom.json
-          '''
-        }
-      }
-
+      // stage("Cdxgen-Scan") {
+      //   steps {
+      //     sh 'touch WORKSPACE'
+      //     sh ''' docker pull ghcr.io/cyclonedx/cdxgen && \
+      //     docker run -v "$(pwd):$(pwd)" -w $(pwd) \
+      //     ghcr.io/cyclonedx/cdxgen -r -o sbom.json
+      //     '''
+      //   }
+      // }
 
       // stage('dependencyTrackPublisher') {
       //       steps {
       //     dependencyTrackPublisher artifact: './syft-sbom.json', projectName: 'my-project', projectVersion: '0.1', synchronous: true, dependencyTrackApiKey: DTRACK_API_KEY
       //       }
       // }
-  }
+
+    // stage('Nuclei-Scan'){
+    //   steps {
+    //     sh ''' docker pull projectdiscovery/nuclei:latest && \
+        
+        
+    //     '''
+    //   }
+    // }
+
+    stage('Gitleaks-Scan') {
+      steps {
+        sh ''' docker pull zricethezav/gitleaks:latest && \
+        docker run -v "$(pwd):$(pwd)" zricethezav/gitleaks:latest detect -f json -s $(pwd) -r gitleakes-scan.json
+        
+        '''
+      }
+    }
+ }
 }
