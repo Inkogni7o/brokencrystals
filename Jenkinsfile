@@ -39,11 +39,11 @@ pipeline {
     //   }
     // }
 
-      stage("TRIVY File scan"){
+      stage("Trivy-Scan"){
           steps{
               sh '''docker pull aquasec/trivy && \
               docker run -v "$(pwd):$(pwd)" -w $(pwd) \
-              aquasec/trivy fs . -f json > trivy_scan.json'''
+              aquasec/trivy fs . -f json > results/trivy_scan.json'''
           }
       }
 
