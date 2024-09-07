@@ -42,8 +42,8 @@ pipeline {
       stage("TRIVY File scan"){
           steps{
               sh '''docker pull aquasec/trivy:0.18.3 && \
-              docker run -w $(pwd) \
-              aquasec/trivy:0.18.3 trivy fs . > trivy_scan.txt'''
+              docker run -v "$(pwd):$(pwd)" -w $(pwd) \
+              aquasec/trivy:0.18.3 fs . -f json > trivy_scan.json'''
           }
       }
 
