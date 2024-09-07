@@ -50,7 +50,7 @@ pipeline {
 
       stage("Cdxgen-Scan") {
         steps {
-          sh ''' docker pull ghcr.io/cyclonedx/cdxgen \
+          sh ''' docker pull ghcr.io/cyclonedx/cdxgen && \
           docker run -v "$(pwd):$(pwd)" -w $(pwd) \
           ghcr.io/cyclonedx/cdxgen -r -o sbom.json
           '''
