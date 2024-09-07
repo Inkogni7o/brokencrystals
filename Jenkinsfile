@@ -84,8 +84,9 @@ pipeline {
 
     stage('Kics-Scan') {
       steps {
-        sh ''' docker pull checkmarx/kics:latest && \
-        docker run  -v "$(pwd):$(pwd)" checkmarx/kics:latest scan -f json --no-color --output-name kics_scan -p $(pwd)"
+        sh '''docker pull checkmarx/kics:latest && \
+        docker run -v "$(pwd):$(pwd)" \
+        checkmarx/kics:latest scan -f json --no-color --output-name kics_scan -p $(pwd)
         '''
       }
     }
