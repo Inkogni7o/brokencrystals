@@ -31,19 +31,20 @@ pipeline {
     //         semgrep/semgrep semgrep ci --json --json-output=semgrep.json'''
     //   }
     // }
-    // stage('Njsscan-scan') {
-    //   steps {
-    //     sh  ''' docker pull opensecurity/njsscan && \
-    //     docker run opensecurity/njsscan --html $(pwd)
-    //     '''
-    //   }
-    // }
+    stage('Njsscan-scan') {
+      steps {
+        sh  ''' docker pull opensecurity/njsscan && \
+        docker run -v "$(pwd):$(pwd)" -w $(pwd) \
+        opensecurity/njsscan --json -o njsscan-scan.json $(pwd) .
+        '''
+      }
+    }
 
       stage("Trivy-Scan"){
           steps{
               sh '''docker pull aquasec/trivy && \
               docker run -v "$(pwd):$(pwd)" -w $(pwd) \
-              aquasec/trivy fs . -f json > results/trivy_scan.json'''
+              aquasec/trivy fs . -f json > trivy_scan.json'''
           }
       }
 
