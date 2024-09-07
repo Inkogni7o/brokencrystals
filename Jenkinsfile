@@ -76,8 +76,8 @@ pipeline {
     stage('Gitleaks-Scan') {
       steps {
         sh ''' docker pull zricethezav/gitleaks:latest && \
-        docker run -v "$(pwd):$(pwd)" zricethezav/gitleaks:latest detect -f json -s $(pwd) -r gitleakes-scan.json --exit-code 0
-        
+        docker run -v "$(pwd):$(pwd)" \
+        zricethezav/gitleaks:latest detect -f json -s $(pwd) -r $(pwd)/gitleakes_scan.json --exit-code 0
         '''
       }
     }
