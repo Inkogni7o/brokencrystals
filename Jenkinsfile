@@ -17,18 +17,25 @@ pipeline {
       // SEMGREP_PR_ID = "${env.CHANGE_ID}"
     }
     stages {
-      stage('Semgrep-Scan') {
-        steps {
-            sh '''docker pull semgrep/semgrep && \
-            docker run \
-            -e SEMGREP_APP_TOKEN=$SEMGREP_APP_TOKEN \
-            -e SEMGREP_REPO_URL=$SEMGREP_REPO_URL \
-            -e SEMGREP_REPO_NAME=$SEMGREP_REPO_NAME \
-            -e SEMGREP_BRANCH=$SEMGREP_BRANCH \
-            -e SEMGREP_COMMIT=$SEMGREP_COMMIT \
-            -e SEMGREP_PR_ID=$SEMGREP_PR_ID \
-            -v "$(pwd):$(pwd)" --workdir $(pwd) \
-            semgrep/semgrep semgrep ci --json --json-output=semgrep.json'''
+    //   stage('Semgrep-Scan') {
+    //     steps {
+    //         sh '''docker pull semgrep/semgrep && \
+    //         docker run \
+    //         -e SEMGREP_APP_TOKEN=$SEMGREP_APP_TOKEN \
+    //         -e SEMGREP_REPO_URL=$SEMGREP_REPO_URL \
+    //         -e SEMGREP_REPO_NAME=$SEMGREP_REPO_NAME \
+    //         -e SEMGREP_BRANCH=$SEMGREP_BRANCH \
+    //         -e SEMGREP_COMMIT=$SEMGREP_COMMIT \
+    //         -e SEMGREP_PR_ID=$SEMGREP_PR_ID \
+    //         -v "$(pwd):$(pwd)" --workdir $(pwd) \
+    //         semgrep/semgrep semgrep ci --json --json-output=semgrep.json'''
+    //   }
+    // }
+    stage('Njsscan-scan') {
+      steps {
+        sh  ''' docker pull opensecurity/njsscan && \
+        docker run opensecurity/njsscan --json --output njsscan-scan.json
+        '''
       }
     }
 
