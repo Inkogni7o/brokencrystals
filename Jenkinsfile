@@ -34,7 +34,7 @@ pipeline {
     stage('Njsscan-scan') {
       steps {
         sh  ''' docker pull opensecurity/njsscan && \
-        docker run opensecurity/njsscan ./ --json --output njsscan-scan.json
+        docker run opensecurity/njsscan . --json --output njsscan-scan.json
         '''
       }
     }
