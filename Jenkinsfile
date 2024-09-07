@@ -31,31 +31,21 @@ pipeline {
     //         semgrep/semgrep semgrep ci --json --json-output=semgrep.json'''
     //   }
     // }
-    stage('Njsscan-scan') {
-      steps {
-        sh  ''' docker pull opensecurity/njsscan && \
-        docker run opensecurity/njsscan --html $(pwd)
-        '''
+    // stage('Njsscan-scan') {
+    //   steps {
+    //     sh  ''' docker pull opensecurity/njsscan && \
+    //     docker run opensecurity/njsscan --html $(pwd)
+    //     '''
+    //   }
+    // }
+
+      stage("TRIVY File scan"){
+          steps{
+              sh """docker pull aquasec/trivy:0.18.3 &&
+              aquasec/trivy repo https://github.com/Inkogni7o/brokencrystals""" 
+          }
       }
-    }
 
-      // stage("TRIVY File scan"){
-      //     steps{
-      //         sh "trivy fs . > trivy-fs_report.txt" 
-      //     }
-      // }
-
-      // stage("Generate Syft SBOM"){
-      //   steps{
-      //       sh "syft packages dir:./ --scope AllLayers -o cyclonedx-json@1.5 > ./syft-sbom.json"
-      //     }
-      //   }
-
-      // stage('Grype scan') {
-      //   steps {
-      //     grypeScan scanDest: 'dir:./', repName: 'myScanResult.txt', autoInstall:true
-      //   }
-      // }
 
       // stage('dependencyTrackPublisher') {
       //       steps {
