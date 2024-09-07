@@ -73,11 +73,19 @@ pipeline {
     //   }
     // }
 
-    stage('Gitleaks-Scan') {
+    // stage('Gitleaks-Scan') {
+    //   steps {
+    //     sh ''' docker pull zricethezav/gitleaks:latest && \
+    //     docker run -v "$(pwd):$(pwd)" \
+    //     zricethezav/gitleaks:latest detect -f json -s $(pwd) -r $(pwd)/gitleakes_scan.json --exit-code 0
+    //     '''
+    //   }
+    // }
+
+    stage('Kics-Scan') {
       steps {
-        sh ''' docker pull zricethezav/gitleaks:latest && \
-        docker run -v "$(pwd):$(pwd)" \
-        zricethezav/gitleaks:latest detect -f json -s $(pwd) -r $(pwd)/gitleakes_scan.json --exit-code 0
+        sh ''' docker pull checkmarx/kics:latest && \
+        docker run  -v "$(pwd):$(pwd)" checkmarx/kics:latest scan -f json --no-color --output-name kics_scan -p $(pwd)"
         '''
       }
     }
