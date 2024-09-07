@@ -86,7 +86,7 @@ pipeline {
       steps {
         sh '''docker pull checkmarx/kics:latest && \
         docker run -v "$(pwd):$(pwd)" \
-        checkmarx/kics:latest scan -f json -p $(pwd) --ci --exclude-severities high,medium,low,info,trace 
+        checkmarx/kics:latest scan -f json -p $(pwd) --exclude-severities high,medium,low,info,trace > kics_result.json 
         '''
       }
     }
