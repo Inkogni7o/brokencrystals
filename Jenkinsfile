@@ -42,7 +42,7 @@ pipeline {
       stage("TRIVY File scan"){
           steps{
               sh """docker pull aquasec/trivy:0.18.3 &&
-              trivy repo https://github.com/Inkogni7o/brokencrystals""" 
+              docker run aquasec/trivy:0.18.3 trivy repo https://github.com/Inkogni7o/brokencrystals""" 
           }
       }
 
