@@ -31,14 +31,14 @@ pipeline {
     //         semgrep/semgrep semgrep ci --json --json-output=semgrep.json'''
     //   }
     // }
-    stage('Njsscan-scan') {
-      steps {
-        sh  ''' docker pull opensecurity/njsscan && \
-        docker run -v "$(pwd):$(pwd)" -w $(pwd) \
-        opensecurity/njsscan --json -o njsscan-scan.json $(pwd) .
-        '''
-      }
-    }
+    // stage('Njsscan-scan') {
+    //   steps {
+    //     sh  ''' docker pull opensecurity/njsscan && \
+    //     docker run -v "$(pwd):$(pwd)" -w $(pwd) \
+    //     opensecurity/njsscan --json -o njsscan-scan.json $(pwd) .
+    //     '''
+    //   }
+    // }
 
       stage("Trivy-Scan"){
           steps{
@@ -46,6 +46,15 @@ pipeline {
               docker run -v "$(pwd):$(pwd)" -w $(pwd) \
               aquasec/trivy fs . -f json > trivy_scan.json'''
           }
+      }
+
+      stage("Cdxgen-Scan") {
+        steps {
+          sh ''' docker pull ghcr.io/cyclonedx/cdxgen \
+          docker run -v "$(pwd):$(pwd)" -w $(pwd) \
+          ghcr.io/cyclonedx/cdxgen -r -o sbom.json
+          '''
+        }
       }
 
 
