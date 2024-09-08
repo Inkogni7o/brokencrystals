@@ -1,7 +1,7 @@
 pipeline {
   agent any
     environment {
-      // SEMGREP_APP_TOKEN = credentials('SEMGREP_APP_TOKEN')
+      SEMGREP_APP_TOKEN = credentials('SEMGREP_APP_TOKEN')
       // DTRACK_API_KEY = credentials('dtrack_api_key')
 
       // Uncomment the following line to scan changed
