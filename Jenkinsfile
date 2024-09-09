@@ -60,20 +60,20 @@ pipeline {
 
         stage('Upload SBOM to Dependency Track') {
           steps {
-              // sh '''
-              //     curl -X "POST" "http://localhost:8080/api/v1/bom" \
-              //     -H 'Content-Type: multipart/form-data' \
-              //     -H 'X-Api-Key: ${DTRACK_API_KEY}' \
-              //     -F "project=${PROJECT_UUID}" \
-              //     -F "bom=@${pwd}/trivy_scan.json"
-              //   '''
-                sh '''
-                      curl -X "POST" "http://localhost:8080/api/v1/bom" \
-                    -H 'Content-Type: multipart/form-data' \
-                    -H 'X-Api-Key: ${DTRACK_API_KEY}' \
-                    -F "project=${PROJECTUUID}" \
-                    -F "bom=@${pwd}/cdxgen_sbom.json"
+              sh '''
+                  curl -X "POST" "http://localhost:8080/api/v1/bom" \
+                  -H 'Content-Type: multipart/form-data' \
+                  -H 'X-Api-Key: ${DTRACK_API_KEY}' \
+                  -F "project=${PROJECT_UUID}" \
+                  -F "bom=@${pwd}/trivy_scan.json"
                 '''
+                // sh '''
+                //       curl -X "POST" "http://localhost:8080/api/v1/bom" \
+                //     -H 'Content-Type: multipart/form-data' \
+                //     -H 'X-Api-Key: ${DTRACK_API_KEY}' \
+                //     -F "project=${PROJECTUUID}" \
+                //     -F "bom=@${pwd}/cdxgen_sbom.json"
+                // '''
             }
         }
 
