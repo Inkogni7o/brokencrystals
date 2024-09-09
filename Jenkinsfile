@@ -60,7 +60,7 @@ pipeline {
 
       stage('dependencyTrackPublisher') {
             steps {
-          dependencyTrackPublisher artifact: './trivy.json', projectName: 'my-project', projectVersion: '0.1', synchronous: true, dependencyTrackApiKey: DTRACK_API_KEY
+          dependencyTrackPublisher artifact: './trivy_scan.json', projectName: 'my-project', projectVersion: '0.1', synchronous: true, dependencyTrackApiKey: DTRACK_API_KEY
             }
       }
 
