@@ -3,6 +3,7 @@ pipeline {
     environment {
       SEMGREP_APP_TOKEN = credentials('SEMGREP_APP_TOKEN')
       DTRACK_API_KEY = credentials('dtrack_api_key')
+      PROJECT_UUID = credentials('PROJECT_UUID')
 
       // Uncomment the following line to scan changed
       // files in PRs or MRs (diff-aware scanning):
@@ -63,15 +64,15 @@ pipeline {
               sh '''
                   curl -X "POST" "http://localhost:8080/api/v1/bom" \
                   -H 'Content-Type: multipart/form-data' \
-                  -H 'X-Api-Key: $(DTRACK_API_KEY)' \
-                  -F "project=$(PROJECT_UUID)" \
+                  -H 'X-Api-Key: $DTRACK_API_KEY' \
+                  -F "project=$PROJECT_UUID" \
                   -F "bom=@trivy_scan.json"
                 '''
                 sh '''
                       curl -X "POST" "http://localhost:8080/api/v1/bom" \
                     -H 'Content-Type: multipart/form-data' \
-                    -H 'X-Api-Key: ${DTRACK_API_KEY}' \
-                    -F "project=${PROJECTUUID}" \
+                    -H 'X-Api-Key: $DTRACK_API_KEY' \
+                    -F "project=$PROJECTUUID" \
                     -F "bom=@cdxgen_sbom.json"
                 '''
             }
