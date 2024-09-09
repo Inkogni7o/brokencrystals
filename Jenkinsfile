@@ -40,23 +40,23 @@ pipeline {
     //   }
     // }
 
-      // stage("Trivy-Scan"){
-      //     steps{
-      //         sh '''docker pull aquasec/trivy && \
-      //         docker run -v "$(pwd):$(pwd)" -w $(pwd) \
-      //         aquasec/trivy fs . -f json > trivy_scan.json'''
-      //     }
-      // }
-
-      stage("Cdxgen-Scan") {
-        steps {
-          sh 'touch WORKSPACE'
-          sh ''' docker pull ghcr.io/cyclonedx/cdxgen && \
-          docker run -v "$(pwd):$(pwd)" -w $(pwd) \
-          ghcr.io/cyclonedx/cdxgen -r -o cdxgen_sbom.json
-          '''
-        }
+      stage("Trivy-Scan"){
+          steps{
+              sh '''docker pull aquasec/trivy && \
+              docker run -v "$(pwd):$(pwd)" -w $(pwd) \
+              aquasec/trivy fs . -f json > trivy_scan.json'''
+          }
       }
+
+      // stage("Cdxgen-Scan") {
+      //   steps {
+      //     sh 'touch WORKSPACE'
+      //     sh ''' docker pull ghcr.io/cyclonedx/cdxgen && \
+      //     docker run -v "$(pwd):$(pwd)" -w $(pwd) \
+      //     ghcr.io/cyclonedx/cdxgen -r -o cdxgen_sbom.json
+      //     '''
+      //   }
+      // }
 
         stage('Upload SBOM to Dependency Track') {
           steps {
