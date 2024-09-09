@@ -48,21 +48,34 @@ pipeline {
           }
       }
 
-      // stage("Cdxgen-Scan") {
-      //   steps {
-      //     sh 'touch WORKSPACE'
-      //     sh ''' docker pull ghcr.io/cyclonedx/cdxgen && \
-      //     docker run -v "$(pwd):$(pwd)" -w $(pwd) \
-      //     ghcr.io/cyclonedx/cdxgen -r -o sbom.json
-      //     '''
-      //   }
-      // }
-
-      stage('dependencyTrackPublisher') {
-            steps {
-          dependencyTrackPublisher artifact: './trivy_scan.json', projectName: 'my-project', projectVersion: '0.1', synchronous: true, dependencyTrackApiKey: DTRACK_API_KEY
-            }
+      stage("Cdxgen-Scan") {
+        steps {
+          sh 'touch WORKSPACE'
+          sh ''' docker pull ghcr.io/cyclonedx/cdxgen && \
+          docker run -v "$(pwd):$(pwd)" -w $(pwd) \
+          ghcr.io/cyclonedx/cdxgen -r -o cdxgen_sbom.json
+          '''
+        }
       }
+
+        stage('Upload SBOM to Dependency Track') {
+          steps {
+              sh '''
+                  curl -X "POST" "http://localhost:8080/api/v1/bom" \
+                  -H 'Content-Type: multipart/form-data' \
+                  -H 'X-Api-Key: ${DTRACK_API_KEY}' \
+                  -F "project=${PROJECT_UUID}" \
+                  -F "bom=@${pwd}/trivy_scan.json"
+                '''
+                sh '''
+                      curl -X "POST" "http://localhost:8080/api/v1/bom" \
+                    -H 'Content-Type: multipart/form-data' \
+                    -H 'X-Api-Key: ${DTRACK_API_KEY}' \
+                    -F "project=${PROJECTUUID}" \
+                    -F "bom=@${pwd}/cdxgen_sbom.json"
+                '''
+            }
+        }
 
     // stage('Gitleaks-Scan') {
     //   steps {
