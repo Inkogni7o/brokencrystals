@@ -40,13 +40,13 @@ pipeline {
     //   }
     // }
 
-      stage("Trivy-Scan"){
-          steps{
-              sh '''docker pull aquasec/trivy && \
-              docker run -v "$(pwd):$(pwd)" -w $(pwd) \
-              aquasec/trivy fs . -f json > trivy_scan.json'''
-          }
-      }
+      // stage("Trivy-Scan"){
+      //     steps{
+      //         sh '''docker pull aquasec/trivy && \
+      //         docker run -v "$(pwd):$(pwd)" -w $(pwd) \
+      //         aquasec/trivy fs . -f json > trivy_scan.json'''
+      //     }
+      // }
 
       // stage("Cdxgen-Scan") {
       //   steps {
