@@ -40,13 +40,13 @@ pipeline {
     //   }
     // }
 
-      stage("Trivy-Scan"){
-          steps{
-              sh '''docker pull aquasec/trivy && \
-              docker run -v "$(pwd):$(pwd)" -w $(pwd) \
-              aquasec/trivy fs . -f json > trivy_scan.json'''
-          }
-      }
+      // stage("Trivy-Scan"){
+      //     steps{
+      //         sh '''docker pull aquasec/trivy && \
+      //         docker run -v "$(pwd):$(pwd)" -w $(pwd) \
+      //         aquasec/trivy fs . -f json > trivy_scan.json'''
+      //     }
+      // }
 
       stage("Cdxgen-Scan") {
         steps {
@@ -60,13 +60,13 @@ pipeline {
 
         stage('Upload SBOM to Dependency Track') {
           steps {
-              sh '''
-                  curl -X "POST" "http://localhost:8080/api/v1/bom" \
-                  -H 'Content-Type: multipart/form-data' \
-                  -H 'X-Api-Key: ${DTRACK_API_KEY}' \
-                  -F "project=${PROJECT_UUID}" \
-                  -F "bom=@${pwd}/trivy_scan.json"
-                '''
+              // sh '''
+              //     curl -X "POST" "http://localhost:8080/api/v1/bom" \
+              //     -H 'Content-Type: multipart/form-data' \
+              //     -H 'X-Api-Key: ${DTRACK_API_KEY}' \
+              //     -F "project=${PROJECT_UUID}" \
+              //     -F "bom=@${pwd}/trivy_scan.json"
+              //   '''
                 sh '''
                       curl -X "POST" "http://localhost:8080/api/v1/bom" \
                     -H 'Content-Type: multipart/form-data' \
